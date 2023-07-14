@@ -1,6 +1,7 @@
 import asyncio
 import random
 import time
+import aiohttp
 import discord
 import discord.utils
 import openai
@@ -21,7 +22,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
 from words_list import badlist
-
+openai.api_key = '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'
 
 with open("./config.json", "r") as f:
     config = json.load(f)
@@ -36,6 +37,7 @@ class General(commands.Cog):
         self.servers = {}
         self.cookie = cookieTxt
         self.userAgent = config["userAgent"]
+        self.session = aiohttp.ClientSession()
 
 
     @commands.command(pass_context=True, aliases=['c', 'C'])
@@ -169,6 +171,15 @@ class General(commands.Cog):
     async def chegg(self, ctx, url: str):
         answer = await self.fetch_chegg(url)
         await ctx.send(answer)
+    @commands.command(name='get_twitter', help='Get Twitter handle associated with Roblox name in Nom Your Friends')
+    async def get_twitter(self, ctx, roblox_id: str):
+      async with self.session.get(f'https://virtuoso-twitter.herokuapp.com/{roblox_id}') as response:
+          if response.status == 200:
+              data = await response.json()
+              twitter_name = data['twitter_name']
+              await ctx.send(f'In Nom Your Friends, the Twitter username for the Roblox user with ID {roblox_id} is {twitter_name}.')
+          else:
+              await ctx.send('Could not find Twitter username for that Roblox user.')
     
     async def fetch_chegg(self, url: str) -> str:
         user_agent = UserAgent()

@@ -19,7 +19,7 @@ count = 5
 currentTC = ""
 ages = False
 
-token = os.getenv('DISCORD_TOKEN')
+token = 'ODU4OTc1ODUzODM5OTA4ODY1.GNVU7U.E02cztaXuTe8GPw9-vdPrbg7mgWs3iTzpN_Wpc'
 
 warning = [
     "No profanity ",
