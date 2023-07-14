@@ -7,6 +7,7 @@ import discord.utils
 import openai
 import requests
 import json
+import os
 from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -22,7 +23,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
 from words_list import badlist
-openai.api_key = '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'
+openai.api_key = os.getenv('OPENAI_TOKEN')
 
 with open("./config.json", "r") as f:
     config = json.load(f)
